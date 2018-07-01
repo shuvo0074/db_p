@@ -13,7 +13,10 @@ import {
   Text,
   View,
   Dimensions,
-  
+  TextInput,
+  TouchableOpacity,
+  ToastAndroid,
+  ScrollView
 } from 'react-native';
 
 
@@ -24,7 +27,10 @@ export default class App extends Component<Props> {
     this.state = ({
       W: Dimensions.get('window').width,
       uname:'',
-      pass: '',
+      fname:'',
+      email:'',
+      mobileno:'',
+      pass:'',
         })
       Dimensions.addEventListener('change', () => {
         this.setState({
@@ -36,24 +42,83 @@ export default class App extends Component<Props> {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+      <View 
+      style={{height:50}}
+      />
+    <TextInput
+    placeholder= "User Name"
+    onChangeText={(txt)=>{
+      this.setState({uname: txt})
+    }}
+    style={styles.input}
+    />
+    <TextInput
+    placeholder= "Full Name"
+    onChangeText={(txt)=>{
+      this.setState({fname: txt})
+    }}
+    style={styles.input}
+    />
+    <TextInput
+    placeholder= "Email"
+    onChangeText={(txt)=>{
+      this.setState({email: txt})
+    }}
+    style={styles.input}
+    />
+    <TextInput
+    placeholder= "Mobile number"
+    onChangeText={(txt)=>{
+      this.setState({mobileno: txt})
+    }}
+    style={styles.input}
+    />
+    <TextInput
+    placeholder= "Password"
+    onChangeText={(txt)=>{
+      this.setState({pass: txt})
+    }}
+    style={styles.input}
+    />
+    <TouchableOpacity
+    style={styles.input}
+      onPress={()=> {
+    db.transaction((tx) => {
+      tx.executeSql('INSERT INTO user (`username`,`fullname`, `email`,`mobileno`,`password`  ) VALUES (?)', [this.state.uname,this.state.fname,this.state.email,this.state.mobileno,this.state.password], (tx, results) => {
+          var len = results.rows.length;
+          Actions.notes()
+        });
+    })
+    }}
+      >
         
-      </View>
+          <Text style={styles.listItemFonts}>Register</Text>
+          
+      </TouchableOpacity>
+
+      <View 
+      style={{height:100}}
+      />
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  input: {
+    height:60,
+    width: 300,
+    borderWidth: 2,
+    borderRadius:15,
+    margin: 15,
+    alignItems: 'center'
+
   },
   instructions: {
     textAlign: 'center',

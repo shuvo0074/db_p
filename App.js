@@ -45,7 +45,7 @@ export default class App extends Component<Props> {
       <Scene
       key="notes"
       component={Notes}
-      title="Home"
+      title="My notes"
       />
 
       <Scene

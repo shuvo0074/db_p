@@ -45,12 +45,14 @@ export default class App extends Component<Props> {
       <View style={styles.container}>
 
     <TextInput
+    placeholder= "User Name"
     onChangeText={(txt)=>{
       this.setState({uname: txt})
     }}
     style={styles.input}
     />
     <TextInput
+    placeholder= "Password"
     onChangeText={(txt)=>{
       this.setState({pass: txt})
     }}
