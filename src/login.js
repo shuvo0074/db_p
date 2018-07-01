@@ -34,7 +34,7 @@ export default class App extends Component<Props> {
       })
 
       db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM user where usename=?', [this.state.uname], (tx, results) => {
+        tx.executeSql('SELECT * FROM user where username=?', [this.state.uname], (tx, results) => {
             
             var len = results.rows.length;
             if (len>0){
