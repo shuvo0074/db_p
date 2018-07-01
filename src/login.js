@@ -13,6 +13,7 @@ import {
   Text,
   View,
   Dimensions,
+  TextInput,
 
 } from 'react-native';
 
@@ -23,7 +24,7 @@ export default class App extends Component<Props> {
     super(props)
     this.state = ({
       W: Dimensions.get('window').width,
-      uname:'',
+      uname:'a',
       pass: '',
         })
       Dimensions.addEventListener('change', () => {
@@ -32,12 +33,27 @@ export default class App extends Component<Props> {
       });
       })
 
+      db.transaction((tx) => {
+        tx.executeSql('SELECT * FROM user where usename=?', [this.state.uname], (tx, results) => {
+            
+            var len = results.rows.length;
+            if (len>0){
+                var rec= results.rows.item(0)
+                this.setState({pass: rec.password})
+            }
+          });
+      });
+
       
   }
   render() {
+
     return (
       <View style={styles.container}>
-        
+        <Text>
+            {this.state.pass} text
+        </Text>
+
       </View>
     );
   }
