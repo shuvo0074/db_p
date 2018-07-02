@@ -16,12 +16,13 @@ import {
   TextInput,
   TouchableOpacity,
   ToastAndroid,
-  ScrollView
+  ScrollView,
+  Actions
 } from 'react-native';
 
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class registration extends Component<Props> {
   constructor (props){
     super(props)
     this.state = ({
@@ -46,6 +47,9 @@ export default class App extends Component<Props> {
       <View 
       style={{height:50}}
       />
+      <Text>
+        {this.state.uname}{this.state.fname}{this.state.pass}{this.state.email}{this.state.mobileno}
+        </Text>
     <TextInput
     placeholder= "User Name"
     onChangeText={(txt)=>{
@@ -84,12 +88,17 @@ export default class App extends Component<Props> {
     <TouchableOpacity
     style={styles.input}
       onPress={()=> {
-    db.transaction((tx) => {
-      tx.executeSql('INSERT INTO user (`username`,`fullname`, `email`,`mobileno`,`password`  ) VALUES (?)', [this.state.uname,this.state.fname,this.state.email,this.state.mobileno,this.state.password], (tx, results) => {
-          var len = results.rows.length;
-          Actions.notes()
-        });
+    db.transaction((tx) => {        console.log("failed")
+
+      var sql= 'SELECT * FROM user where username=\''+this.state.uname+'\''
+      var sql1='INSERT INTO user ( username , fullname , email , mobileno , password ) VALUES ( \'' + this.state.uname +'\' , \'' + this.state.fname + '\' , \'' + this.state.email + '\' , ' + this.state.mobileno + ' , \'' + this.state.pass + '\' )'
+      tx.executeSql(sql1, [], (tx, results) => {
+        var len = results.rows.length;
+        console.log(len)
+        ToastAndroid.show("Registration Successful",ToastAndroid.SHORT)
+        })
     })
+    Actions.notes()
     }}
       >
         

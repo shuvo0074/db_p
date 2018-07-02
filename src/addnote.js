@@ -21,7 +21,7 @@ import {Router,Scene,Actions} from 'react-native-router-flux'
 
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class addnote extends Component<Props> {
   constructor (props){
     super(props)
     this.state = ({
@@ -72,15 +72,15 @@ export default class App extends Component<Props> {
     }}
       >
         
-          <Text style={styles.listItemFonts}>Login</Text>
+          <Text style={styles.listItemFonts}>Add note</Text>
           
       </TouchableOpacity>
 
       <TouchableOpacity
       style={styles.input}
-      onPress={()=> {Actions.registration()}}
+      onPress={()=> {Actions.login()}}
       >
-          <Text style={styles.listItemFonts}>Sign up</Text>
+          <Text style={styles.listItemFonts}>log out</Text>
       </TouchableOpacity>
 
       </View>

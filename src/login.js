@@ -21,7 +21,7 @@ import {Router,Scene,Actions} from 'react-native-router-flux'
 
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class login extends Component<Props> {
   constructor (props){
     super(props)
     this.state = ({
@@ -33,6 +33,22 @@ export default class App extends Component<Props> {
         this.setState({
         W: Dimensions.get('window').width
       });
+      })
+      console.log(this.state.uname)
+
+      db.transaction((tx) => {
+        tx.executeSql('SELECT * FROM user where username=?', [this.state.uname], (tx, results) => {
+            var len = results.rows.length;
+
+            console.log(len)
+
+            if (len>0){
+                var rec= results.rows.item(0)
+                this.setState({pass: rec.password})
+                console.log(this.state.pass)
+            
+            }
+          });
       })
 
   }
@@ -46,6 +62,7 @@ export default class App extends Component<Props> {
 
     <TextInput
     placeholder= "User Name"
+    defaultValue= {this.state.uname}
     onChangeText={(txt)=>{
       this.setState({uname: txt})
     }}
@@ -53,6 +70,7 @@ export default class App extends Component<Props> {
     />
     <TextInput
     placeholder= "Password"
+    defaultValue= {this.state.pass}
     onChangeText={(txt)=>{
       this.setState({pass: txt})
     }}
@@ -66,10 +84,16 @@ export default class App extends Component<Props> {
           var len = results.rows.length;
           if (len>0){
               var rec= results.rows.item(0)
-              this.state.pass==rec.password ?
-              Actions.notes()
-              :
-              ToastAndroid.show("Login failed",ToastAndroid.SHORT)
+              if(this.state.pass==rec.password || rec==null)
+              {Actions.notes()
+              console.log(this.state.uname)
+              console.log(rec.password)
+
+              ToastAndroid.show("Login success",ToastAndroid.SHORT)
+              this.setState({uname:'',pass:''})
+              }
+              else
+              {ToastAndroid.show("Login failed",ToastAndroid.SHORT)}
           
           }
         });
