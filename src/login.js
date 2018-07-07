@@ -84,13 +84,17 @@ export default class login extends Component<Props> {
           var len = results.rows.length;
           if (len>0){
               var rec= results.rows.item(0)
-              if(this.state.pass==rec.password || rec==null)
-              {Actions.notes()
-              console.log(this.state.uname)
-              console.log(rec.password)
-
+              if(this.state.pass==rec.email || this.state.pass==rec.mobileno)
+              {
               ToastAndroid.show("Login success",ToastAndroid.SHORT)
               this.setState({uname:'',pass:''})
+
+              db.transaction((tx) => {
+                tx.executeSql('INSERT INTO loggedin ( name ) VALUES ( \'' + this.state.uname +'\' )', [], (tx, results) => {});
+              })
+
+
+              Actions.notes()
               }
               else
               {ToastAndroid.show("Login failed",ToastAndroid.SHORT)}

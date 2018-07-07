@@ -35,7 +35,7 @@ export default class notes extends Component<Props> {
       });
       })
       db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM notes where name=?', [this.state.uname], (tx, results) => {
+        tx.executeSql('SELECT * FROM notes where name=(SELECT name FROM loggedin)', [], (tx, results) => {
             var len = results.rows.length;
             if (len>0){
                 var rec= results.rows.item(0)
@@ -55,7 +55,12 @@ export default class notes extends Component<Props> {
 
       <TouchableOpacity
       style={styles.input}
-      onPress={()=> {Actions.login()}}
+      onPress={()=> {
+        db.transaction((tx) => {
+                tx.executeSql('DELETE FROM loggedin', [], (tx, results) => {});
+              })
+        Actions.login()
+      }}
       >
           <Text style={styles.listItemFonts}>Log out</Text>
       </TouchableOpacity>

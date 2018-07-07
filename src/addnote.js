@@ -64,7 +64,7 @@ export default class addnote extends Component<Props> {
               this.state.pass==rec.password ?
               Actions.notes()
               :
-              ToastAndroid.show("Login failed",ToastAndroid.SHORT)
+              ToastAndroid.show("",ToastAndroid.SHORT)
           
           }
         });
@@ -74,13 +74,6 @@ export default class addnote extends Component<Props> {
         
           <Text style={styles.listItemFonts}>Add note</Text>
           
-      </TouchableOpacity>
-
-      <TouchableOpacity
-      style={styles.input}
-      onPress={()=> {Actions.login()}}
-      >
-          <Text style={styles.listItemFonts}>log out</Text>
       </TouchableOpacity>
 
       </View>
