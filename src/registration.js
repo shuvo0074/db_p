@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 var SQLite = require('react-native-sqlite-storage')
 var db= SQLite.openDatabase({name: 'testDB',createFromLocation: '~project.db'})

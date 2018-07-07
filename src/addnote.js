@@ -46,6 +46,7 @@ export default class addnote extends Component<Props> {
           add note for {this.state.uname}
         </Text>
     <TextInput
+    placeholder= "Write note"
     onChangeText={(txt)=>{
       this.setState({note: txt})
     }}
@@ -58,9 +59,9 @@ export default class addnote extends Component<Props> {
     style={styles.input}
       onPress={()=> {
         db.transaction((tx) => {
-          tx.executeSql('INSERT INTO notes ( name , note ) VALUES ( \'' + this.state.uname +'\' , \''+ this.state,note+'\' )', [], (tx, results) => {});
+          tx.executeSql('INSERT INTO notes ( name , note ) VALUES ( \'' + this.state.uname +'\' , \''+ this.state.note +'\' )', [], (tx, results) => {});
+          ToastAndroid.show( this.state.note + " : Note saved successfully",ToastAndroid.SHORT)
         })
-        ToastAndroid.show("Note saved successfully",ToastAndroid.SHORT)
         Actions.notes()
     }}
       >
