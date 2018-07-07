@@ -22,6 +22,7 @@ export default class addnote extends Component<Props> {
       W: Dimensions.get('window').width,
       uname: '',
       note: '',
+      d: '',
         })
       Dimensions.addEventListener('change', () => {
         this.setState({
@@ -52,15 +53,16 @@ export default class addnote extends Component<Props> {
     }}
     style={styles.input}
     />
-    <Text>
-      {this.state.note}
-      </Text>
+
     <TouchableOpacity
     style={styles.input}
       onPress={()=> {
+        var date= new Date()
+        var strDate= ""+date.getDate() +" "+date.getMonth()+" "+date.getFullYear()+" "+date.getHours()+": "+date.getMinutes()+" "
+        this.setState({d: strDate})
         db.transaction((tx) => {
-          tx.executeSql('INSERT INTO notes ( name , note ) VALUES ( \'' + this.state.uname +'\' , \''+ this.state.note +'\' )', [], (tx, results) => {});
-          ToastAndroid.show( this.state.note + " : Note saved successfully",ToastAndroid.SHORT)
+          tx.executeSql('INSERT INTO notes ( name , note ,date) VALUES ( \'' + this.state.uname +'\' , \''+ this.state.note +'\' , \''+this.state.d+'\' )', [], (tx, results) => {});
+          ToastAndroid.show( this.state.note + " : Note saved successfully on " + this.state.d ,ToastAndroid.SHORT)
         })
         Actions.notes()
     }}

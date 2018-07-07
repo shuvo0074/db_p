@@ -28,6 +28,7 @@ export default class notes extends Component<Props> {
       W: Dimensions.get('window').width,
       uname:'',
       note: [],
+      dates: [],
         })
       Dimensions.addEventListener('change', () => {
         this.setState({
@@ -52,8 +53,11 @@ export default class notes extends Component<Props> {
               for (x=0;x<len;x++){
                 var rec= results.rows.item(x)
                 var arr=this.state.note
+                var arr2=this.state.dates
                 arr.push(rec.note)
+                arr2.push(rec.date)
                 this.setState({note: arr})
+                this.setState({dates: arr2})
               }
             }
           });
@@ -66,15 +70,16 @@ export default class notes extends Component<Props> {
         <Text> Notes for {this.state.uname}  :
           </Text>
           {
-            this.state.note.map((x)=>{
+            this.state.note.map((x,index)=>{
               return(
                 <Text>
-                  {x}
+                  {x} , {this.state.dates[index]}
                 </Text>
               )
             }
             )
           }
+          
 
       <TouchableOpacity
       style={styles.input}

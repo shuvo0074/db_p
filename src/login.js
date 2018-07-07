@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 var SQLite = require('react-native-sqlite-storage')
 var db= SQLite.openDatabase({name: 'testDB',createFromLocation: '~project.db'})
@@ -56,10 +50,8 @@ export default class login extends Component<Props> {
   
 
   render() {
-
     return (
       <View style={styles.container}>
-
     <TextInput
     placeholder= "User Name"
     onChangeText={(txt)=>{
