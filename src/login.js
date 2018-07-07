@@ -62,15 +62,13 @@ export default class login extends Component<Props> {
 
     <TextInput
     placeholder= "User Name"
-    defaultValue= {this.state.uname}
     onChangeText={(txt)=>{
       this.setState({uname: txt})
     }}
     style={styles.input}
     />
     <TextInput
-    placeholder= "Password"
-    defaultValue= {this.state.pass}
+    placeholder= "Email or Mobile no. "
     onChangeText={(txt)=>{
       this.setState({pass: txt})
     }}
@@ -86,18 +84,22 @@ export default class login extends Component<Props> {
               var rec= results.rows.item(0)
               if(this.state.pass==rec.email || this.state.pass==rec.mobileno)
               {
-              ToastAndroid.show("Login success",ToastAndroid.SHORT)
-              this.setState({uname:'',pass:''})
+
+              db.transaction((tx) => {
+                tx.executeSql('DELETE FROM loggedin', [], (tx, results) => {});
+              })
 
               db.transaction((tx) => {
                 tx.executeSql('INSERT INTO loggedin ( name ) VALUES ( \'' + this.state.uname +'\' )', [], (tx, results) => {});
+                ToastAndroid.show("Login success for " + this.state.uname +" !!" ,ToastAndroid.SHORT)
+
               })
-
-
               Actions.notes()
               }
               else
-              {ToastAndroid.show("Login failed",ToastAndroid.SHORT)}
+              {
+                this.textInput.clear()
+                ToastAndroid.show("Login failed",ToastAndroid.SHORT)}
           
           }
         });
@@ -111,7 +113,9 @@ export default class login extends Component<Props> {
 
       <TouchableOpacity
       style={styles.input}
-      onPress={()=> {Actions.registration()}}
+      onPress={()=> {
+        ToastAndroid.show(" Please Register. ",ToastAndroid.SHORT)
+        Actions.registration()}}
       >
           <Text style={styles.listItemFonts}>Sign up</Text>
       </TouchableOpacity>

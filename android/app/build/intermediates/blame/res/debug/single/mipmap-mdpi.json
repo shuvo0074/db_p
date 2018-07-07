@@ -1,5 +1,9 @@
 [
     {
+        "merged": "G:\\GitHub\\db_p\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\ic_launcher.png",
+        "source": "G:\\GitHub\\db_p\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
         "merged": "E:\\project\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\ic_launcher.png",
         "source": "E:\\project\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     }

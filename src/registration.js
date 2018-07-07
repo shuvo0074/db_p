@@ -17,8 +17,8 @@ import {
   TouchableOpacity,
   ToastAndroid,
   ScrollView,
-  Actions
 } from 'react-native';
+import {Router,Scene,Actions} from 'react-native-router-flux'
 
 
 type Props = {};
@@ -88,8 +88,7 @@ export default class registration extends Component<Props> {
     <TouchableOpacity
     style={styles.input}
       onPress={()=> {
-    db.transaction((tx) => {        console.log("failed")
-
+    db.transaction((tx) => {
       var sql= 'SELECT * FROM user where username=\''+this.state.uname+'\''
       var sql1='INSERT INTO user ( username , fullname , email , mobileno , password ) VALUES ( \'' + this.state.uname +'\' , \'' + this.state.fname + '\' , \'' + this.state.email + '\' , ' + this.state.mobileno + ' , \'' + this.state.pass + '\' )'
       tx.executeSql(sql1, [], (tx, results) => {
@@ -97,6 +96,13 @@ export default class registration extends Component<Props> {
         console.log(len)
         ToastAndroid.show("Registration Successful",ToastAndroid.SHORT)
         })
+    })
+    db.transaction((tx) => {
+      tx.executeSql('DELETE FROM loggedin', [], (tx, results) => {});
+    })
+
+    db.transaction((tx) => {
+      tx.executeSql('INSERT INTO loggedin ( name ) VALUES ( \'' + this.state.uname +'\' )', [], (tx, results) => {});
     })
     Actions.notes()
     }}

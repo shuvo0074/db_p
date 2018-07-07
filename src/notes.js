@@ -26,8 +26,8 @@ export default class notes extends Component<Props> {
     super(props)
     this.state = ({
       W: Dimensions.get('window').width,
-      uname:'b',
-      note: '',
+      uname:'',
+      note: [],
         })
       Dimensions.addEventListener('change', () => {
         this.setState({
@@ -35,12 +35,26 @@ export default class notes extends Component<Props> {
       });
       })
       db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM notes where name=(SELECT name FROM loggedin)', [], (tx, results) => {
+        tx.executeSql('SELECT * FROM loggedin', [], (tx, results) => {
             var len = results.rows.length;
             if (len>0){
                 var rec= results.rows.item(0)
-                this.setState({note: rec.note})
+                this.setState({uname: rec.name})
 
+            }
+          });
+      })
+      db.transaction((tx) => {
+        tx.executeSql('SELECT * FROM notes where name=?', [this.state.uname], (tx, results) => {
+            var len = results.rows.length;
+            console.log("notes array len "+ len)
+            if (len>0){
+              for (x=0;x<len;x++){
+                var rec= results.rows.item(x)
+                var arr=this.state.note
+                arr.push(rec.note)
+                this.setState({note: arr})
+              }
             }
           });
       })
@@ -49,9 +63,18 @@ export default class notes extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text>
-          {this.state.note}
+        <Text> Notes for {this.state.uname}  :
           </Text>
+          {
+            this.state.note.map((x)=>{
+              return(
+                <Text>
+                  {x}
+                </Text>
+              )
+            }
+            )
+          }
 
       <TouchableOpacity
       style={styles.input}
